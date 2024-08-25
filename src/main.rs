@@ -26,7 +26,7 @@ fn main() {
     }
 
     // Make sure we got at least one input file before proceeding.
-    if args.target.len() == 0 {
+    if args.target.is_empty() {
         println!(
             "Try `{} --help` for usage instructions.",
             env!("CARGO_PKG_NAME")
