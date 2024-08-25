@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+anyhow = "1.0.86"
 argh = "0.1.12"
 object = "0.36.3"
 walkdir = "2.5.0"
