@@ -1,4 +1,6 @@
 use argh::FromArgs;
+use peff::input;
+use peff::pe::TargetBinary;
 
 #[derive(FromArgs)]
 /// Print DLLs imported by a Windows binary (EXE, DLL, OCX, SYS, etc.). The
@@ -32,6 +34,17 @@ fn main() {
         std::process::exit(0)
     }
 
-    // TODO: build list of target binaries to analyze.
-    for _ in args.target {}
+    // Build list of target binaries to analyze.
+    let mut results = vec![];
+    for target in input::build_list(args.target) {
+        match TargetBinary::from(target) {
+            Ok(t) => results.push(t),
+            Err(_) => {} // ignore parsing errors.
+        }
+    }
+
+    // Print results.
+    for r in results {
+        println!("{:#?}\n{:#?}\n", r.path, r.dlls);
+    }
 }
