@@ -45,6 +45,6 @@ fn main() {
 
     // Print results.
     for r in results {
-        println!("{:#?}\n{:#?}\n", r.path, r.dlls);
+        r.print();
     }
 }

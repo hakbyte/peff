@@ -36,4 +36,22 @@ impl TargetBinary {
 
         Ok(Self { path, dlls })
     }
+
+    /// Print contents to stdout.
+    pub fn print(&self) {
+        // Write path to target binary.
+        print!("{}: [", self.path.display());
+
+        // If dlls is empty, print a a single space between square brackets.
+        if self.dlls.is_empty() {
+            println!("\n    NO IMPORTS FOUND!\n]");
+        } else {
+            println!();
+            // Write each DLL entry with 4 spaces as indentation.
+            for dll in &self.dlls {
+                println!("    {dll}");
+            }
+            println!("]");
+        }
+    }
 }
