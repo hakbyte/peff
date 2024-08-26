@@ -19,6 +19,7 @@ struct Args {
 }
 
 fn main() {
+    // Parse command line arguments.
     let args: Args = argh::from_env();
 
     // Print version and exit.
