@@ -2,21 +2,19 @@ use argh::FromArgs;
 use peff::input;
 use peff::pe::TargetBinary;
 
+/// Show DLLs imported by a Windows binary (EXE, DLL, OCX, SYS, etc.)
 #[derive(FromArgs)]
-/// Print DLLs imported by a Windows binary (EXE, DLL, OCX, SYS, etc.). The
-/// target binaries will be read and their import sections parsed to generate a
-/// list of imported DLLs.
 struct Args {
-    #[argh(switch)]
     /// print version and exit
+    #[argh(switch)]
     version: Option<bool>,
 
-    #[argh(switch, short = 'q')]
     /// suppress errors
+    #[argh(switch, short = 'q')]
     quiet: Option<bool>,
 
-    #[argh(positional)]
     /// input files to analyze
+    #[argh(positional)]
     target: Vec<String>,
 }
 
@@ -31,10 +29,9 @@ fn main() {
 
     // Make sure we got at least one input file before proceeding.
     if args.target.is_empty() {
-        println!(
-            "Try `{} --help` for usage instructions.",
-            env!("CARGO_PKG_NAME")
-        );
+        let program_name = env!("CARGO_PKG_NAME");
+        println!("Usage: {program_name} [<target...>] [--version] [-q]");
+        println!("Try '{program_name} --help' for more information.");
         std::process::exit(0)
     }
 
@@ -46,7 +43,7 @@ fn main() {
                 if args.quiet.is_none() {
                     println!("Error processing {target:#?}: {e}");
                 }
-            },
+            }
         }
     }
 }
