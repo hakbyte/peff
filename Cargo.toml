@@ -1,6 +1,7 @@
 [package]
 name = "peff"
 version = "0.1.0"
+authors = ["hakbyte <spam@hakbyte.com>"]
 edition = "2021"
 
 [dependencies]
