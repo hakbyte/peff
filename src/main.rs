@@ -37,9 +37,9 @@ fn main() {
     // Build list of target binaries to analyze.
     let mut results = vec![];
     for target in input::build_list(args.target) {
-        match TargetBinary::from(target) {
+        match TargetBinary::from(&target) {
             Ok(t) => results.push(t),
-            Err(_) => {} // ignore parsing errors.
+            Err(e) => eprintln!("Error processing {target:#?}: {e}"),
         }
     }
 

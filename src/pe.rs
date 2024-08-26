@@ -14,7 +14,7 @@ pub struct TargetBinary {
 
 impl TargetBinary {
     /// Build a new target binary from a filesystem path.
-    pub fn from(path: PathBuf) -> Result<Self> {
+    pub fn from(path: &PathBuf) -> Result<Self> {
         // Read binary from disk and parse it.
         let binary = fs::read(&path)?;
         let binary = object::File::parse(&*binary)?;
@@ -34,7 +34,10 @@ impl TargetBinary {
             .collect::<Vec<String>>();
         dlls.sort();
 
-        Ok(Self { path, dlls })
+        Ok(Self {
+            path: path.clone(),
+            dlls,
+        })
     }
 
     /// Print contents to stdout.
