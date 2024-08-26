@@ -11,4 +11,5 @@ object = "0.36.3"
 walkdir = "2.5.0"
 
 [profile.release]
+strip = true
 panic = "abort"
