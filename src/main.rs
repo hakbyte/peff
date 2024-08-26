@@ -11,6 +11,10 @@ struct Args {
     /// print version and exit
     version: Option<bool>,
 
+    #[argh(switch, short = 'q')]
+    /// suppress errors
+    quiet: Option<bool>,
+
     #[argh(positional)]
     /// input files to analyze
     target: Vec<String>,
@@ -39,7 +43,11 @@ fn main() {
     for target in input::build_list(args.target) {
         match TargetBinary::from(&target) {
             Ok(t) => results.push(t),
-            Err(e) => eprintln!("Error processing {target:#?}: {e}"),
+            Err(e) => {
+                if args.quiet.is_none() {
+                    println!("Error processing {target:#?}: {e}");
+                }
+            },
         }
     }
 
