@@ -56,7 +56,7 @@ If you wish, you can compile the source code yourself:
 ```
 $ git clone https://github.com/hakbyte/peff.git
 $ cd peff
-$ cargo build
+$ cargo build --release
 ```
 
 Or use [cargo install](https://doc.rust-lang.org/cargo/commands/cargo-install.html)
