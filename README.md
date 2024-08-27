@@ -7,7 +7,7 @@ copy from the [Release](https://github.com/hakbyte/peff/releases) page.
 
 
 ```
- peff.exe --help
+$ peff.exe --help
 Usage: peff [<target...>] [--version] [-q]
 
 Show DLLs imported by a Windows binary (EXE, DLL, OCX, SYS, etc.)
@@ -27,7 +27,7 @@ Options:
 Ever wondered which DLLs a binary is importing? Here is an example:
 
 ```
- peff.exe C:\Windows\System32\calc.exe
+$ peff.exe C:\Windows\System32\calc.exe
 C:\Windows\System32\calc.exe: [
     ADVAPI32.dll
     KERNEL32.dll
