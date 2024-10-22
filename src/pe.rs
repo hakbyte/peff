@@ -23,7 +23,7 @@ impl TargetBinary {
         let binary = fs::read(&path)?;
         let binary = object::File::parse(&*binary)?;
 
-        // HashSet to store results by discarding duplicates.
+        // Store results in HashSet to avoid duplicates.
         let mut set = HashSet::new();
 
         // Loop over the imports section and build a list of imported symbols.
