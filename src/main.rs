@@ -44,7 +44,7 @@ fn main() {
     // Build list of target binaries to analyze.
     for target in input::build_list(args.target) {
         match TargetBinary::from(&target) {
-            Ok(t) => println!("{t:?}"),
+            Ok(t) => println!("{t}"),
             Err(e) => {
                 if args.quiet.is_none() {
                     println!("Error processing {target:#?}: {e}");

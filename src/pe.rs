@@ -1,5 +1,6 @@
 use anyhow::Result;
 use object::Object;
+use std::fmt;
 use std::{collections::HashSet, fs, path::PathBuf};
 
 /// Target binary to be analyzed.
@@ -50,5 +51,25 @@ impl TargetBinary {
             imports,
             exports,
         })
+    }
+}
+
+impl fmt::Display for TargetBinary {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "{}: {{\n    imports: [\n        {}\n    ]\n    exports: [\n        {}\n    ]\n}}\n",
+            self.path.display(),
+            self.imports
+                .iter()
+                .map(|s| format!("{s}"))
+                .collect::<Vec<String>>()
+                .join("\n        "),
+            self.exports
+                .iter()
+                .map(|s| format!("{s}"))
+                .collect::<Vec<String>>()
+                .join("\n        ")
+        )
     }
 }
