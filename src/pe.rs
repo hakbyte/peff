@@ -2,14 +2,17 @@ use anyhow::Result;
 use object::Object;
 use std::{collections::HashSet, fs, path::PathBuf};
 
-/// A target binary to be analyzed.
+/// Target binary to be analyzed.
 #[derive(Debug)]
 pub struct TargetBinary {
     /// Path to the binary.
     pub path: PathBuf,
 
-    /// Imported DLLs.
-    pub dlls: Vec<String>,
+    /// Imported symbols (i.e. DLLs).
+    pub imports: Vec<String>,
+
+    /// Exported symbols (i.e. functions).
+    pub exports: Vec<String>,
 }
 
 impl TargetBinary {
@@ -19,42 +22,33 @@ impl TargetBinary {
         let binary = fs::read(&path)?;
         let binary = object::File::parse(&*binary)?;
 
-        // Loop over the imports section and build a list of imported DLLs
-        // discarding duplicates.
+        // HashSet to store results by discarding duplicates.
         let mut set = HashSet::new();
+
+        // Loop over the imports section and build a list of imported symbols.
         for entry in binary.imports()? {
-            let dll = String::from_utf8_lossy(entry.library());
-            set.insert(dll);
+            let symbol = String::from_utf8_lossy(entry.library());
+            set.insert(symbol);
         }
 
-        // Build list of imported DLLs from HashSet.
-        let mut dlls = set
-            .into_iter()
-            .map(|dll| dll.into_owned())
-            .collect::<Vec<String>>();
-        dlls.sort();
+        // Sort list of imported symbols.
+        let mut imports = set.drain().map(|s| s.into_owned()).collect::<Vec<String>>();
+        imports.sort();
+
+        // Loop over the exports section and build a list of exported symbols.
+        for entry in binary.exports()? {
+            let symbol = String::from_utf8_lossy(entry.name());
+            set.insert(symbol);
+        }
+
+        // Sort list of exported symbols.
+        let mut exports = set.drain().map(|s| s.into_owned()).collect::<Vec<String>>();
+        exports.sort();
 
         Ok(Self {
             path: path.clone(),
-            dlls,
+            imports,
+            exports,
         })
-    }
-
-    /// Print contents to stdout.
-    pub fn print(&self) {
-        // Write path to target binary.
-        print!("{}: [", self.path.display());
-
-        // If dlls is empty, print a a single space between square brackets.
-        if self.dlls.is_empty() {
-            println!("\n    NO IMPORTS FOUND!\n]");
-        } else {
-            println!();
-            // Write each DLL entry with 4 spaces as indentation.
-            for dll in &self.dlls {
-                println!("    {dll}");
-            }
-            println!("]");
-        }
     }
 }
