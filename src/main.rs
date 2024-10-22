@@ -1,3 +1,8 @@
+//
+// It looks like you might be one of us
+// -- Heathens (Twenty One Pilots)
+//
+
 use argh::FromArgs;
 use peff::input;
 use peff::pe::TargetBinary;
