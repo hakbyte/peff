@@ -7,7 +7,7 @@ use argh::FromArgs;
 use peff::input;
 use peff::pe::TargetBinary;
 
-/// Show DLLs imported by a Windows binary (EXE, DLL, OCX, SYS, etc.)
+/// Parses a Windows binary and prints its imported DLLs and exported symbols.
 #[derive(FromArgs)]
 struct Args {
     /// print version and exit
