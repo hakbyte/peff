@@ -3,7 +3,7 @@ use object::Object;
 use std::fmt;
 use std::{collections::HashSet, fs, path::PathBuf};
 
-/// Target binary to be analyzed.
+/// Target binary to analyze.
 #[derive(Debug)]
 pub struct TargetBinary {
     /// Path to the binary.
